@@ -1,5 +1,7 @@
 package jvm.pablohdz.tweetapp.user;
 
+import jvm.pablohdz.tweetapp.exception.DataDuplicateException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +15,10 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User addUser(User user) {
-        return userRepository.save(user);
+        try {
+            return userRepository.save(user);
+        } catch (DataIntegrityViolationException exception) {
+            throw  new DataDuplicateException(user.getEmail());
+        }
     }
 }
