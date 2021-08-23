@@ -1,8 +1,6 @@
 package jvm.pablohdz.tweetapp.user;
 
 public interface UserService {
-
-
     /**
      * Stores a user in the database
      *

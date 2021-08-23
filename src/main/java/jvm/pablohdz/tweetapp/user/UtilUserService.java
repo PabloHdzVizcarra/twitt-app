@@ -1,5 +1,6 @@
 package jvm.pablohdz.tweetapp.user;
 
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import jvm.pablohdz.tweetapp.security.PasswordHashing;
@@ -21,7 +22,7 @@ public class UtilUserService {
      * @param user an {@link User} object
      * @return A user object with hashed password
      */
-    public User hashPasswordUser(User user) {
+    public User hashPasswordUser(@NonNull User user) {
         String password = user.getPassword();
         String hashPass = passwordHashing.hash(password);
         user.setPassword(hashPass);
