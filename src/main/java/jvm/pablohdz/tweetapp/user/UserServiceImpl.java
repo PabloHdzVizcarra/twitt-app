@@ -1,16 +1,15 @@
 package jvm.pablohdz.tweetapp.user;
 
-import jvm.pablohdz.tweetapp.exception.DataDuplicateException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import jvm.pablohdz.tweetapp.exception.DataDuplicateException;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final Logger LOGGER = Logger.getLogger(UserServiceImpl.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
     private final UtilUserService utils;
 
@@ -27,11 +26,8 @@ public class UserServiceImpl implements UserService {
         try {
             User userWithPasswordHash = utils.hashPasswordUser(user);
             User userSaved = userRepository.save(userWithPasswordHash);
-            LOGGER.log(
-                    Level.INFO,
-                    "The user with the email: " + userSaved.getEmail()
-                            + " was registered in the database"
-            );
+            logger.info("The user with the email: " + userSaved.getEmail() +
+                    " saved in the database");
 
             return userSaved;
         } catch (DataIntegrityViolationException exception) {
